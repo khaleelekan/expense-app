@@ -26,7 +26,7 @@ function ExpenseOverview (){
     options={
       {title : 'Recent Expenses',
        tabBarLabel: 'Recent',
-       tabBarIcon: ({color, size}) => (<Ionicons name='hourglass' 
+       tabBarIcon: ({color, size}) => (<Ionicons name='time' 
        size={size} color={color}/>)
       }
     }/>
@@ -35,7 +35,7 @@ function ExpenseOverview (){
     options={
       {title : 'All Expenses',
        tabBarLabel: 'All',
-       tabBarIcon: ({color, size}) => (<Ionicons name='hourglass' 
+       tabBarIcon: ({color, size}) => (<Ionicons name='calendar' 
        size={size} color={color}/>)
       }} />
   </BottomTabs.Navigator>
@@ -44,7 +44,7 @@ function ExpenseOverview (){
 export default function App() {
   return (
     <>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     <NavigationContainer>
       <Stack.Navigator 
       >

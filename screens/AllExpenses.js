@@ -1,10 +1,9 @@
 import {View, StyleSheet,Text} from 'react-native'
+import { ExpenseOutput } from '../components/expenses/ExpenseOutput'
 
 export const AllExpenses = () => {
   return (
-    <View>
-        <Text>All expense</Text>
-        </View>
+    <ExpenseOutput expensesPeriod='All'/>
   )
 }
 

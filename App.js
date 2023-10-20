@@ -20,6 +20,10 @@ function ExpenseOverview (){
         headerTintColor: 'white',
         tabBarStyle: {backgroundColor: GlobalStyles.colors.primary500},
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        headerRight: ({tintColor}) => {
+          return (<iconButton icon='add' size={24} 
+          color={tintColor} onPress={()=>{}}/>)
+        }
       }}>
     <BottomTabs.Screen name='Recent expenses'
     component={RecentExpenses}

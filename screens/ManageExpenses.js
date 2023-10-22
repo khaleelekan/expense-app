@@ -17,7 +17,7 @@ useLayoutEffect(( )=>{
 },[navigation, isEditing]);
 
 function deleteExpense (){
-  expenseCtx.deleteExpense(editExpense)
+  expenseCtx.deleteExpense(editExpenseId)
   navigation.goBack();
 }
 function cancelHandler() {

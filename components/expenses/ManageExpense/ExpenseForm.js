@@ -1,5 +1,5 @@
 import {View, StyleSheet} from 'react-native'
-import Input from './Input'
+import {Input} from './Input'
 
 
 export const ExpenseForm = () => {
@@ -19,7 +19,7 @@ export const ExpenseForm = () => {
                 onChangeText: () => {}
             }}/>
             <Input label='Description' textConfig={{
-                
+                mulitline: true,
             }}/>
         </View>
     )

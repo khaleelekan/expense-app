@@ -71,20 +71,20 @@ function ExpenseContextProvider ({children}) {
     function deleteExpense(id){
         dispatch({ type: 'DELETE', payload: id})
     }
-    function updateExpense (id,expenseData){
-        dispatch({ type: 'UPDATE', payload: id , expenseData})
+    function updateExpense (id, expenseState){
+        dispatch({ type: 'UPDATE', payload: id , expenseState})
     }
 
     const value = {
-        expense: expenseData,
+        expense: expenseState,
         addExpense: addExpense,
         updateExpense: updateExpense,
         deleteExpense: deleteExpense
     }
 
-    return <ExpenseContext.Provider value={value}>
+    return <ExpenseCreateContext.Provider value={value}>
         {children}
-    </ExpenseContext.Provider>
+    </ExpenseCreateContext.Provider>
 }
 
 export default ExpenseContextProvider

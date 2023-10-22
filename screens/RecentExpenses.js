@@ -14,7 +14,8 @@ export const RecentExpenses = () => {
   })
   return (
    <ExpenseOutput expenses={recentExpenses}
-   expensesPeriod='last 7 days'/>
+   expensesPeriod='last 7 days'
+   fallback='no recent expenses added'/>
   )
 }
 

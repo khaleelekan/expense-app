@@ -7,7 +7,8 @@ export const AllExpenses = () => {
   const expenseCtx = useContext(ExpenseCreateContext)
   return (
     <ExpenseOutput expenses={expenseCtx.expense} 
-    expensesPeriod='All'/>
+    expensesPeriod='All'
+    fallback={'add new expense'}/>
   )
 }
 

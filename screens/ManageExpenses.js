@@ -4,6 +4,7 @@ import { IconButton } from '../UI/iconButton';
 import { GlobalStyles } from '../constants/style';
 import { Button } from '../UI/Button';
 import { ExpenseCreateContext } from '../store/expense-context';
+import { ExpenseForm } from '../components/expenses/ManageExpense/ExpenseForm';
 
 export const ManageExpenses = ({route, navigation}) => {
   const expenseCtx =  useContext(ExpenseCreateContext)
@@ -46,6 +47,7 @@ function confirmHandler (){
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.buttons}>
         <Button style={styles.button} mode ='flat' onPress={cancelHandler}>cancel</Button>
         <Button  style={styles.button} onPress={confirmHandler}>{isEditing ? 'update' : 'Add'}</Button>

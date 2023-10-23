@@ -2,7 +2,6 @@ import { useContext, useLayoutEffect } from 'react';
 import {View, StyleSheet,Text} from 'react-native'
 import { IconButton } from '../UI/iconButton';
 import { GlobalStyles } from '../constants/style';
-import { Button } from '../UI/Button';
 import { ExpenseCreateContext } from '../store/expense-context';
 import { ExpenseForm } from '../components/expenses/ManageExpense/ExpenseForm';
 
@@ -10,6 +9,9 @@ export const ManageExpenses = ({route, navigation}) => {
   const expenseCtx =  useContext(ExpenseCreateContext)
   const editExpenseId = route.params?.expenseId;
   const isEditing = !!editExpenseId;
+
+  const selectedExpense = expenseCtx.expense.find(
+    (expense)=> expense.id == editExpenseId);
 
 useLayoutEffect(( )=>{
   navigation.setOptions({
@@ -25,33 +27,23 @@ function cancelHandler() {
   navigation.goBack();
 }
 
-function confirmHandler (){
+function confirmHandler (expenseData){
  if(isEditing){
   expenseCtx.updateExpense(
     editExpenseId,
-    {
-      description: 'tese',
-      amount: 19.99,
-      date: new Date ('2022-05-20')
-    }
+    expenseData
   )
  }else{
-  expenseCtx.addExpense({
-    description: 'tese',
-    amount: 19.99,
-    date: new Date ('2022-05-20')
-  })
+  expenseCtx.addExpense(expenseData)
  }
   navigation.goBack();
 }
 
   return (
     <View style={styles.container}>
-      <ExpenseForm />
-      <View style={styles.buttons}>
-        <Button style={styles.button} mode ='flat' onPress={cancelHandler}>cancel</Button>
-        <Button  style={styles.button} onPress={confirmHandler}>{isEditing ? 'update' : 'Add'}</Button>
-      </View>
+      <ExpenseForm submitLabel={isEditing? 'Update' : 'Add'} 
+      onCancel={cancelHandler} onSubmit={confirmHandler}
+      defaultValues={selectedExpense}/>
         {isEditing && (
           <View style={styles.deleteContainer}>
           <IconButton icon='trash' size={36} 
@@ -66,14 +58,6 @@ const styles = StyleSheet.create({
       flex:1,
       padding: 24,
       backgroundColor: GlobalStyles.colors.primary800
-    },
-    buttons:{
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    button:{
-      flex: 1
     },
     deleteContainer: {
       marginTop: 16,

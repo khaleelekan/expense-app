@@ -41,19 +41,19 @@ export const ExpenseForm = ({submitLabel, onCancel,onSubmit, defaultValues}) => 
         <View>
             <Input label='Amount' textConfig={{
                 keyboardType: 'decimal-pad',
-                onChangeText: inputChangeHandler(this, 'amount') ,
+                onChangeText: inputChangeHandler.bind(this, 'amount') ,
                 value: inputValues.amount,
             }}/>
             <Input label='Date' textConfig={{
                 placeholder: 'YYYY-MM-DD',
                 maxLength: 10,
-                onChangeText: inputChangeHandler(this, 'date') ,
+                onChangeText: inputChangeHandler.bind(this, 'date') ,
                 value: inputValues.date,
             }}/>
             <Input label='Description' 
                 textConfig={{
                 mulitline: true,
-                onChangeText: inputChangeHandler(this, 'description') ,
+                onChangeText: inputChangeHandler.bind(this, 'description') ,
                 value: inputValues.description,
             }}/>
              <View style={styles.buttons}>

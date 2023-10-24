@@ -32,7 +32,7 @@ function confirmHandler (expenseData){
   expenseCtx.updateExpense(
     editExpenseId,
     expenseData
-  )
+  );
  }else{
   expenseCtx.addExpense(expenseData)
  }

@@ -4,6 +4,7 @@ import { IconButton } from '../UI/iconButton';
 import { GlobalStyles } from '../constants/style';
 import { ExpenseCreateContext } from '../store/expense-context';
 import { ExpenseForm } from '../components/expenses/ManageExpense/ExpenseForm';
+import { storeExpense } from '../util/http';
 
 export const ManageExpenses = ({route, navigation}) => {
   const expenseCtx =  useContext(ExpenseCreateContext)
@@ -34,6 +35,7 @@ function confirmHandler (expenseData){
     expenseData
   );
  }else{
+  storeExpense(expenseData);
   expenseCtx.addExpense(expenseData)
  }
   navigation.goBack();

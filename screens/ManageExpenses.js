@@ -4,7 +4,7 @@ import { IconButton } from '../UI/iconButton';
 import { GlobalStyles } from '../constants/style';
 import { ExpenseCreateContext } from '../store/expense-context';
 import { ExpenseForm } from '../components/expenses/ManageExpense/ExpenseForm';
-import { storeExpense } from '../util/http';
+import { deleteExpenses, storeExpense, updateExpenses } from '../util/http';
 
 export const ManageExpenses = ({route, navigation}) => {
   const expenseCtx =  useContext(ExpenseCreateContext)
@@ -20,7 +20,8 @@ useLayoutEffect(( )=>{
   )
 },[navigation, isEditing]);
 
-function deleteExpense (){
+  async function deleteExpenseHandler (){
+  await deleteExpenses (editExpenseId);
   expenseCtx.deleteExpense(editExpenseId)
   navigation.goBack();
 }
@@ -28,15 +29,13 @@ function cancelHandler() {
   navigation.goBack();
 }
 
-function confirmHandler (expenseData){
+async function confirmHandler (expenseData){
  if(isEditing){
-  expenseCtx.updateExpense(
-    editExpenseId,
-    expenseData
-  );
+  expenseCtx.updateExpense( editExpenseId,expenseData);
+  await updateExpenses(editExpenseId,expenseData)
  }else{
-  storeExpense(expenseData);
-  expenseCtx.addExpense(expenseData)
+  const id = await storeExpense(expenseData);
+  expenseCtx.addExpense({...expenseData , id: id})
  }
   navigation.goBack();
 }
@@ -49,7 +48,7 @@ function confirmHandler (expenseData){
         {isEditing && (
           <View style={styles.deleteContainer}>
           <IconButton icon='trash' size={36} 
-          color={GlobalStyles.colors.error500} onPress={deleteExpense}/>
+          color={GlobalStyles.colors.error500} onPress={deleteExpenseHandler}/>
         </View>
         )}
     </View>

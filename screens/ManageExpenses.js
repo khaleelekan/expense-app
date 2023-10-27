@@ -21,7 +21,7 @@ useLayoutEffect(( )=>{
 },[navigation, isEditing]);
 
   async function deleteExpenseHandler (){
-  await deleteExpenses (editExpenseId);
+  deleteExpenses (editExpenseId);
   expenseCtx.deleteExpense(editExpenseId)
   navigation.goBack();
 }
@@ -32,7 +32,7 @@ function cancelHandler() {
 async function confirmHandler (expenseData){
  if(isEditing){
   expenseCtx.updateExpense( editExpenseId,expenseData);
-  await updateExpenses(editExpenseId,expenseData)
+  updateExpenses(editExpenseId,expenseData)
  }else{
   const id = await storeExpense(expenseData);
   expenseCtx.addExpense({...expenseData , id: id})

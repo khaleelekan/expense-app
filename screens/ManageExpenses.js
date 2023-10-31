@@ -18,7 +18,7 @@ export const ManageExpenses = ({route, navigation}) => {
   const selectedExpense = expenseCtx.expense.find(
     (expense)=> expense.id == editExpenseId);
 
-useLayoutEffect(( )=>{
+useLayoutEffect(()=>{
   navigation.setOptions({
     title: isEditing ? 'Edit Expenses' : 'Manage Expenses'}
   )
@@ -27,41 +27,50 @@ useLayoutEffect(( )=>{
   async function deleteExpenseHandler (){
     setIsSubmitting(true)
     try{
-     await deleteExpenses (editExpenseId);
+     await deleteExpenses(editExpenseId);
+     expenseCtx.deleteExpense(editExpenseId)
+     navigation.goBack();
     }
     catch (error) {
       setError('Could not delete data');
+      setIsSubmitting(false);
     }
+  }
 
-    function errorhandler (){
-      setError (null)
-    }
 
-    if (error && !isSubmitting){
-      return <ErrorOverlay message={error} onConfirm={errorhandler}/>
-    }
-  
-  navigation.goBack();
-}
 function cancelHandler() {
   navigation.goBack();
 }
 
 async function confirmHandler (expenseData){
-  setIsSubmitting(true)
- if(isEditing){
-  expenseCtx.updateExpense( editExpenseId,expenseData);
-  updateExpenses(editExpenseId,expenseData)
- }else{
-  const id = await storeExpense(expenseData);
-  expenseCtx.addExpense({...expenseData , id: id})
- }
-  navigation.goBack();
+  setIsSubmitting(true);
+  try{
+    if(isEditing){
+      expenseCtx.updateExpense( editExpenseId,expenseState);
+      updateExpenses(editExpenseId,expenseState)
+     }else{
+      const id = await storeExpense(expenseData);
+      expenseCtx.addExpense({...expenseData , id: id})
+     }
+     navigation.goBack();
+  }
+  catch(error){
+    setError('Could not save data - please try again later');
+    setIsSubmitting(false)
+  }
+  function errorhandler (){
+    setError (null)
+  }
+
+  if (error && !isSubmitting){
+    return <ErrorOverlay message={error} onConfirm={errorhandler}/>
+  }
+  if (isSubmitting){
+    return <LoadingOverlay />
+  }
 }
 
-if (isSubmitting){
-  return <LoadingOverlay />
-}
+
 
 
   return (

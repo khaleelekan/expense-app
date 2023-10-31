@@ -14,8 +14,8 @@ export const RecentExpenses = () => {
   
   useEffect(()=>{
     async function getExpenses(){
+      setIsFetching(true)
       try{
-        setIsFetching(true)
         const expenses = await  fetchExpenses()
         expenseCtx.setExpense(expenses)
       }
@@ -23,10 +23,9 @@ export const RecentExpenses = () => {
         setError('Could not fetch data')
       }
       setIsFetching(false)
-    
     }
    getExpenses()
-  },[]);
+  },[]); 
 
   function errorHandler(){
     setError (null) 

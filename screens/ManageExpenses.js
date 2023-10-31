@@ -1,12 +1,16 @@
-import { useContext, useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect, useState } from 'react';
 import {View, StyleSheet,Text} from 'react-native'
 import { IconButton } from '../UI/iconButton';
 import { GlobalStyles } from '../constants/style';
 import { ExpenseCreateContext } from '../store/expense-context';
 import { ExpenseForm } from '../components/expenses/ManageExpense/ExpenseForm';
 import { deleteExpenses, storeExpense, updateExpenses } from '../util/http';
+import { LoadingOverlay } from '../UI/LoadingOverlay';
+import { ErrorOverlay } from '../UI/ErrorOverLay';
 
 export const ManageExpenses = ({route, navigation}) => {
+  const [isSubmitting, setIsSubmitting] = useState(true);
+  const [error, setError] = useState();
   const expenseCtx =  useContext(ExpenseCreateContext)
   const editExpenseId = route.params?.expenseId;
   const isEditing = !!editExpenseId;
@@ -21,8 +25,22 @@ useLayoutEffect(( )=>{
 },[navigation, isEditing]);
 
   async function deleteExpenseHandler (){
-  deleteExpenses (editExpenseId);
-  expenseCtx.deleteExpense(editExpenseId)
+    setIsSubmitting(true)
+    try{
+     await deleteExpenses (editExpenseId);
+    }
+    catch (error) {
+      setError('Could not delete data');
+    }
+
+    function errorhandler (){
+      setError (null)
+    }
+
+    if (error && !isSubmitting){
+      return <ErrorOverlay message={error} onConfirm={errorhandler}/>
+    }
+  
   navigation.goBack();
 }
 function cancelHandler() {
@@ -30,6 +48,7 @@ function cancelHandler() {
 }
 
 async function confirmHandler (expenseData){
+  setIsSubmitting(true)
  if(isEditing){
   expenseCtx.updateExpense( editExpenseId,expenseData);
   updateExpenses(editExpenseId,expenseData)
@@ -39,6 +58,11 @@ async function confirmHandler (expenseData){
  }
   navigation.goBack();
 }
+
+if (isSubmitting){
+  return <LoadingOverlay />
+}
+
 
   return (
     <View style={styles.container}>

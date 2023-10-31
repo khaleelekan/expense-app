@@ -1,15 +1,14 @@
 import axios from "axios";
 
-const URL = 'https://expense-react-native-6be76-default-rtdb.firebaseio.com/'
+const URL = 'https://expense-react-native-6be76-default-rtdb.firebaseio.com'
 export async function storeExpense (expenseData){
-    const response = await axios.post(URL +'expenses.json', expenseData);
+    const response = await axios.post(URL + '/expenses.json', expenseData);
     const id = response.data.name
     return id;
 }
 
 export async function fetchExpenses (){
-   const response = await axios.get(URL + '/expenses.json')
-
+   const response = await axios.get(URL + '/expenses.json');
    const expenses = [];
  
    for ( const key in response.data){

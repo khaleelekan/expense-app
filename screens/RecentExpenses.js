@@ -16,7 +16,7 @@ export const RecentExpenses = () => {
     async function getExpenses(){
       setIsFetching(true)
       try{
-        const expenses = await  fetchExpenses()
+        const expenses = await fetchExpenses()
         expenseCtx.setExpense(expenses)
       }
       catch (error){
